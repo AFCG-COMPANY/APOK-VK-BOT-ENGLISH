@@ -1,0 +1,14 @@
+{
+  "name": "vk-bot",
+  "version": "1.0.0",
+  "description": "vk bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fedor Arbuzov",
+  "license": "ISC",
+  "dependencies": {
+    "node-vk-bot": "^0.2.4"
+  }
+}
