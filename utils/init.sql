@@ -15,11 +15,24 @@ CREATE TABLE help (
 
 CREATE TABLE users (
  id integer PRIMARY KEY,
- email text,
- password text,
- vk text, -- id пользователя, может быть null
- tg text  -- если он его не прикрепил
+ email text UNIQUE,
+ password text UNIQUE,
+ vk text UNIQUE, -- id пользователя, может быть null
+ tg text UNIQUE,  -- если он его не прикрепил
+ english_tutor integer
 );
+
+INSERT INTO users (vk) VALUES (123321);
+
+SELECT id FROM users WHERE vk=123321;
+
+SELECT * FROM users;
+
+INSERT into help (message, vk) VALUES ("test_message_new2", 200234103)
+
+
+SELECT * FROM help;
+
 
 -- таблица доступов к курсам
 -- каждый столбец - это доступ и прогресс по какому-то курсу
@@ -57,8 +70,15 @@ CREATE TABLE english_tutor_practice (
 CREATE TABLE referral_share (
     userId integer, -- пользователь который делится ссылкой по реферальной программе(-1 для системы)
     token integer  -- токен для реферальной программы
-)
+);
+
+INSERT into referral_share (userId, token) VALUES (-1, 123321);
+
+SELECT * FROM referral_share;
+
+DELETE FROM referral_share
+WHERE token = 123321;
 
 -- удаление таблицы(подставить нужное)
--- DROP TABLE help;
+ DROP TABLE users;
 
