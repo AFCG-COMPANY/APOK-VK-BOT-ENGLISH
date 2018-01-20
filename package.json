@@ -9,11 +9,7 @@
   "author": "Fedor Arbuzov",
   "license": "ISC",
   "dependencies": {
-    "bookshelf": "^0.12.1",
-    "knex": "^0.13.0",
-    "mysql": "^2.1.0",
-    "node-vk-bot": "^0.2.4",
-    "sqlite3": "^3.1.13"
+    "node-vk-bot": "^0.2.4"
   },
   "devDependencies": {
     "@types/node": "^9.3.0"

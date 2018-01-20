@@ -22,11 +22,12 @@ CREATE TABLE users (
  english_tutor integer
 );
 
-INSERT INTO users (vk) VALUES (123321);
+INSERT OR IGNORE INTO users (vk, english_tutor) VALUES (345678, 0);
 
-SELECT id FROM users WHERE vk=123321;
+SELECT id FROM users WHERE vk=200234103;
 
 SELECT * FROM users;
+
 
 INSERT into help (message, vk) VALUES ("test_message_new2", 200234103)
 
@@ -44,6 +45,10 @@ CREATE TABLE access (
 );                              -- получить доступ к следующему заданию можно только если пройдено предыдущее
                                 -- у заданий может быть разный вес
                                 -- но зная это число можно установить прогресс студента по курсу
+
+INSERT INTO access (id, english_tutor) VALUES (-1, 213321)
+
+SELECT * FROM access;
 
 -- следующие две таблицы содержут информацию о курсе
 -- они должны создаваться программно и здесь представлены для примера
