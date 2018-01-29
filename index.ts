@@ -13,7 +13,7 @@ var bot = new Bot({
 }).start();
 
 // bot functions
-bot.get(/start*/, function start(msg: Message){
+bot.get(/^start*/, function start(msg: Message){
 
 
     var user_message = msg.body;
@@ -43,7 +43,7 @@ bot.get(/start*/, function start(msg: Message){
     }
 });
 
-bot.get(/getclasswork*/, function getclasswork(msg: Message){
+bot.get(/^getclasswork*/, function getclasswork(msg: Message){
 
     console.log("getclasswork");
     var vk_id = (msg.peer_id).toString();
@@ -70,7 +70,7 @@ bot.get(/getclasswork*/, function getclasswork(msg: Message){
 
 });
 
-bot.get(/gethomework*/, function gethomework(msg: Message){
+bot.get(/^gethomework*/, function gethomework(msg: Message){
 
     console.log("gethomework");
     var vk_id = (msg.peer_id).toString();
@@ -96,7 +96,7 @@ bot.get(/gethomework*/, function gethomework(msg: Message){
     }
 });
 
-bot.get(/sendhomework*/, function sendhomework(msg : Message){
+bot.get(/^sendhomework*/, function sendhomework(msg : Message){
     console.log("sendhomework");
     var userAnswer = (msg.body).substring(16);
     var vk_id = (msg.peer_id).toString();
@@ -132,7 +132,7 @@ bot.get(/sendhomework*/, function sendhomework(msg : Message){
     }
 });
 
-bot.get(/help*/, function help(msg: Message){
+bot.get(/^help*/, function help(msg: Message){
 
     var vk_id = (msg.peer_id).toString();
     var user_message = msg.body;

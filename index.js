@@ -10,7 +10,7 @@ var bot = new node_vk_bot_1.Bot({
     token: vk_token
 }).start();
 // bot functions
-bot.get(/start*/, function start(msg) {
+bot.get(/^start*/, function start(msg) {
     var user_message = msg.body;
     user_message = user_message.substring(5);
     user_message = user_message.replace(/\s/g, '');
@@ -33,7 +33,7 @@ bot.get(/start*/, function start(msg) {
         bot.send('Привет! Стандартное сообщение', msg.peer_id);
     }
 });
-bot.get(/getclasswork*/, function getclasswork(msg) {
+bot.get(/^getclasswork*/, function getclasswork(msg) {
     console.log("getclasswork");
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
@@ -55,7 +55,7 @@ bot.get(/getclasswork*/, function getclasswork(msg) {
         }
     }
 });
-bot.get(/gethomework*/, function gethomework(msg) {
+bot.get(/^gethomework*/, function gethomework(msg) {
     console.log("gethomework");
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
@@ -77,7 +77,7 @@ bot.get(/gethomework*/, function gethomework(msg) {
         }
     }
 });
-bot.get(/sendhomework*/, function sendhomework(msg) {
+bot.get(/^sendhomework*/, function sendhomework(msg) {
     console.log("sendhomework");
     var userAnswer = (msg.body).substring(16);
     var vk_id = (msg.peer_id).toString();
@@ -108,7 +108,7 @@ bot.get(/sendhomework*/, function sendhomework(msg) {
         }
     }
 });
-bot.get(/help*/, function help(msg) {
+bot.get(/^help*/, function help(msg) {
     var vk_id = (msg.peer_id).toString();
     var user_message = msg.body;
     user_message = user_message.substring(4);
