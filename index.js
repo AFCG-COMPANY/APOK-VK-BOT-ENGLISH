@@ -5,9 +5,11 @@ var fs = require("fs");
 var vk_admin_id = 200234103;
 // don't even try to use this token
 var vk_token = '251d5365d4fa3f8f44fa1a29a95fd8df030a094ebfa6b4d536cefbdab8e438994272e2bd16dd09f21fcbf';
+// bot config
 var bot = new node_vk_bot_1.Bot({
     token: vk_token
 }).start();
+// bot functions
 bot.get(/start*/, function start(msg) {
     var user_message = msg.body;
     user_message = user_message.substring(5);
@@ -36,7 +38,12 @@ bot.get(/getclasswork*/, function getclasswork(msg) {
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
     var user_progress = get_user_progress(userID);
-    if (user_progress == "-1") {
+    var course_meta = read_json('./utils/courses/english_tutor/english_tutor_meta.json');
+    var num_of_lessons = course_meta['course_size'];
+    if (user_progress == num_of_lessons) {
+        bot.send("Вы все прошли!!", msg.peer_id);
+    }
+    else if (user_progress == "-1") {
         bot.send("У вас нет доступа!!", msg.peer_id);
     }
     else {
@@ -48,9 +55,58 @@ bot.get(/getclasswork*/, function getclasswork(msg) {
         }
     }
 });
-bot.get(/gethomework*/, function gethomework() {
+bot.get(/gethomework*/, function gethomework(msg) {
+    console.log("gethomework");
+    var vk_id = (msg.peer_id).toString();
+    var userID = check_registration_with_vk(vk_id);
+    var user_progress = get_user_progress(userID);
+    var course_meta = read_json('./utils/courses/english_tutor/english_tutor_meta.json');
+    var num_of_lessons = course_meta['course_size'];
+    if (user_progress == num_of_lessons) {
+        bot.send("Вы все прошли!!", msg.peer_id);
+    }
+    else if (user_progress == "-1") {
+        bot.send("У вас нет доступа!!", msg.peer_id);
+    }
+    else {
+        var lessonMap = get_current_homework(user_progress);
+        for (var title in lessonMap) {
+            bot.send(title, msg.peer_id, {
+                attachment: lessonMap[title][0]
+            });
+        }
+    }
 });
-bot.get(/sendhomework*/, function sendhomework() {
+bot.get(/sendhomework*/, function sendhomework(msg) {
+    console.log("sendhomework");
+    var userAnswer = (msg.body).substring(16);
+    var vk_id = (msg.peer_id).toString();
+    var userID = check_registration_with_vk(vk_id);
+    var user_progress = get_user_progress(userID);
+    var course_meta = read_json('./utils/courses/english_tutor/english_tutor_meta.json');
+    var num_of_lessons = course_meta['course_size'];
+    if (user_progress == num_of_lessons) {
+        bot.send("Вы все прошли!!", msg.peer_id);
+    }
+    else if (user_progress == "-1") {
+        bot.send("У вас нет доступа!!", msg.peer_id);
+    }
+    else {
+        var resultAnsver = "";
+        var lessonMap = get_current_homework(user_progress);
+        for (var title in lessonMap) {
+            resultAnsver += lessonMap[title][1];
+        }
+        console.log(userAnswer);
+        console.log(resultAnsver);
+        if (userAnswer == resultAnsver) {
+            bot.send("Все правильно!", msg.peer_id);
+            bot.send(access_to_new_lesson(userID), msg.peer_id);
+        }
+        else {
+            bot.send("Плохой ответ((", msg.peer_id);
+        }
+    }
 });
 bot.get(/help*/, function help(msg) {
     var vk_id = (msg.peer_id).toString();
@@ -67,6 +123,7 @@ bot.get(/help*/, function help(msg) {
         bot.send('Стандартный ответ', msg.peer_id);
     }
 });
+// utils functions
 function get_user_progress(userID) {
     var jsonUsers = read_json('./utils/users/users.json');
     return jsonUsers[userID]['english_tutor'];
@@ -74,6 +131,24 @@ function get_user_progress(userID) {
 function get_current_lesson(progress) {
     var jsonLessons = read_json('./utils/courses/english_tutor/english_tutor_theory.json');
     return jsonLessons[progress];
+}
+function get_current_homework(progress) {
+    var jsonLessons = read_json('./utils/courses/english_tutor/english_tutor_tasks.json');
+    return jsonLessons[progress];
+}
+function access_to_new_lesson(userID) {
+    var jsonUsers = read_json('./utils/users/users.json');
+    var current_user_progress = parseInt(jsonUsers[userID]['english_tutor']);
+    var course_meta = read_json('./utils/courses/english_tutor/english_tutor_meta.json');
+    var num_of_lessons = parseInt(course_meta['course_size']);
+    if (current_user_progress == num_of_lessons) {
+        return "Вы прошли весь курс. \n Поздравляем!";
+    }
+    else {
+        current_user_progress++;
+        jsonUsers[userID]["english_tutor"] = current_user_progress.toString();
+        write_json("./utils/users/users.json", jsonUsers);
+    }
 }
 function help_save(message, id) {
     var jsonHelpVk = read_json('./utils/help/vk_help.json');
