@@ -3,13 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var node_vk_bot_1 = require("node-vk-bot");
 var fs = require("fs");
 var keys_1 = require("./config/keys");
-/*
-var vk_admin_id = 200234103;
-
-// don't even try to use this token
-var vk_token =
-    '251d5365d4fa3f8f44fa1a29a95fd8df030a094ebfa6b4d536cefbdab8e438994272e2bd16dd09f21fcbf';
-*/
+var check_user_answer_1 = require("./user_commands/utils/check_user_answer");
 // bot config
 var bot = new node_vk_bot_1.Bot({
     token: keys_1.vk_token
@@ -121,6 +115,7 @@ bot.get(/^help*/, function help(msg) {
     if (/\S/.test(user_message)) {
         // save user message
         help_save(user_message, userID);
+        console.log(check_user_answer_1.check_user_answer());
         bot.send('Мы скоро ответим', msg.peer_id);
         bot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, keys_1.vk_admin_id);
     }

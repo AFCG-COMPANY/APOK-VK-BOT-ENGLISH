@@ -2,13 +2,8 @@ import {Bot, Message} from 'node-vk-bot'
 import * as path from 'path'
 import * as fs from "fs";
 import {vk_token, vk_admin_id} from "./config/keys";
-/*
-var vk_admin_id = 200234103;
+import {check_user_answer} from "./user_commands/utils/check_user_answer";
 
-// don't even try to use this token
-var vk_token =
-    '251d5365d4fa3f8f44fa1a29a95fd8df030a094ebfa6b4d536cefbdab8e438994272e2bd16dd09f21fcbf';
-*/
 // bot config
 var bot = new Bot({
   token: vk_token
@@ -146,7 +141,7 @@ bot.get(/^help*/, function help(msg: Message){
     {
         // save user message
         help_save(user_message, userID);
-
+        console.log(check_user_answer());
         bot.send('Мы скоро ответим', msg.peer_id);
         bot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, vk_admin_id)
     }
