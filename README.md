@@ -8,3 +8,7 @@ Available commands:
 * sendhomework
 * help
 
+
+#### TODO 
+1. переписать все сохранинене в mongoDB
+2. убрать все ключи из гита
