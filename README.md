@@ -1,7 +1,7 @@
 # APOK-VK-BOT-ENGLISH
 The first commercial project for the company apok (creating a bot in VK for learning English)
 
-Available commands:
+#### Available commands:
 * start
 * getclasswork
 * gethomework
@@ -10,5 +10,5 @@ Available commands:
 
 
 #### TODO 
-1. переписать все сохранинене в mongoDB
-2. убрать все ключи из гита
+1. overwrite all save in mongoDB
+2. remove all keys from the git
