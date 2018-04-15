@@ -1,12 +1,14 @@
 import {Bot, Message} from 'node-vk-bot'
 import * as path from 'path'
 import * as fs from "fs";
+import {vk_token, vk_admin_id} from "./config/keys";
+/*
 var vk_admin_id = 200234103;
 
 // don't even try to use this token
 var vk_token =
     '251d5365d4fa3f8f44fa1a29a95fd8df030a094ebfa6b4d536cefbdab8e438994272e2bd16dd09f21fcbf';
-
+*/
 // bot config
 var bot = new Bot({
   token: vk_token

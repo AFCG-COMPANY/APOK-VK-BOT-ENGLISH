@@ -2,12 +2,17 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var node_vk_bot_1 = require("node-vk-bot");
 var fs = require("fs");
+var keys_1 = require("./config/keys");
+/*
 var vk_admin_id = 200234103;
+
 // don't even try to use this token
-var vk_token = '251d5365d4fa3f8f44fa1a29a95fd8df030a094ebfa6b4d536cefbdab8e438994272e2bd16dd09f21fcbf';
+var vk_token =
+    '251d5365d4fa3f8f44fa1a29a95fd8df030a094ebfa6b4d536cefbdab8e438994272e2bd16dd09f21fcbf';
+*/
 // bot config
 var bot = new node_vk_bot_1.Bot({
-    token: vk_token
+    token: keys_1.vk_token
 }).start();
 // bot functions
 bot.get(/^start*/, function start(msg) {
@@ -117,7 +122,7 @@ bot.get(/^help*/, function help(msg) {
         // save user message
         help_save(user_message, userID);
         bot.send('Мы скоро ответим', msg.peer_id);
-        bot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, vk_admin_id);
+        bot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, keys_1.vk_admin_id);
     }
     else {
         bot.send('Стандартный ответ', msg.peer_id);
