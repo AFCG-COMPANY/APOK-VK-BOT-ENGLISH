@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var node_vk_bot_1 = require("node-vk-bot");
 var fs = require("fs");
 var keys_1 = require("./config/keys");
+var constants_1 = require("./config/constants");
 var check_user_answer_1 = require("./user_commands/utils/check_user_answer");
 // bot config
 var bot = new node_vk_bot_1.Bot({
@@ -91,15 +92,14 @@ bot.get(/^sendhomework*/, function sendhomework(msg) {
         bot.send("У вас нет доступа!!", msg.peer_id);
     }
     else {
-        var resultAnsver = "";
+        var resultAnsver = [];
         var lessonMap = get_current_homework(user_progress);
         for (var title in lessonMap) {
-            resultAnsver += lessonMap[title][1];
+            resultAnsver = resultAnsver.concat(lessonMap[title][1]);
         }
-        console.log(userAnswer);
-        console.log(resultAnsver);
-        if (userAnswer == resultAnsver) {
-            bot.send("Все правильно!", msg.peer_id);
+        var inspectionResult = check_user_answer_1.check_user_answer(userAnswer, resultAnsver, constants_1.TELEGRAM);
+        if (inspectionResult['decided']) {
+            bot.send("Ответ принят!", msg.peer_id);
             bot.send(access_to_new_lesson(userID), msg.peer_id);
         }
         else {

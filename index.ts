@@ -2,6 +2,7 @@ import {Bot, Message} from 'node-vk-bot'
 import * as path from 'path'
 import * as fs from "fs";
 import {vk_token, vk_admin_id} from "./config/keys";
+import {TELEGRAM} from "./config/constants";
 import {check_user_answer} from "./user_commands/utils/check_user_answer";
 
 // bot config
@@ -110,15 +111,14 @@ bot.get(/^sendhomework*/, function sendhomework(msg : Message){
         bot.send("У вас нет доступа!!", msg.peer_id);
     }
     else{
-        var resultAnsver = "";
+        var resultAnsver = [];
         var lessonMap = get_current_homework(user_progress);
         for (var title in lessonMap){
-            resultAnsver += lessonMap[title][1];
+            resultAnsver = resultAnsver.concat(lessonMap[title][1]);
         }
-        console.log(userAnswer);
-        console.log(resultAnsver);
-        if (userAnswer == resultAnsver){
-            bot.send("Все правильно!", msg.peer_id);
+        var inspectionResult = check_user_answer(userAnswer, resultAnsver, TELEGRAM);
+        if (inspectionResult['decided']){
+            bot.send("Ответ принят!", msg.peer_id);
             bot.send(access_to_new_lesson(userID), msg.peer_id);
 
         }
