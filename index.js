@@ -5,12 +5,25 @@ var fs = require("fs");
 var keys_1 = require("./config/keys");
 var constants_1 = require("./config/constants");
 var check_user_answer_1 = require("./user_commands/utils/check_user_answer");
+var TelegramBot = require('node-telegram-bot-api');
 // bot config
-var bot = new node_vk_bot_1.Bot({
+var VKbot = new node_vk_bot_1.Bot({
     token: keys_1.vk_token
 }).start();
+var token = '514641629:AAEF5RPoJmQ8N0WjKVakIIJWd7sz85cTIQc';
+var TGBot = new TelegramBot(token, { polling: true });
+// Matches "/echo [whatever]"
+TGBot.onText(/\/echo (.+)/, function (msg, match) {
+    // 'msg' is the received Message from Telegram
+    // 'match' is the result of executing the regexp above on the text content
+    // of the message
+    var chatId = msg.chat.id;
+    var resp = match[1]; // the captured "whatever"
+    // send back the matched "whatever" to the chat
+    TGBot.sendMessage(chatId, resp);
+});
 // bot functions
-bot.get(/^start*/, function start(msg) {
+VKbot.get(/^start*/, function start(msg) {
     var user_message = msg.body;
     user_message = user_message.substring(5);
     user_message = user_message.replace(/\s/g, '');
@@ -19,21 +32,21 @@ bot.get(/^start*/, function start(msg) {
     if (user_message != '') {
         if (check_token(user_message)) {
             if (set_access(userID)) {
-                bot.send('Теперь у вас есть доступ! \n Можете заниматься', msg.peer_id);
+                VKbot.send('Теперь у вас есть доступ! \n Можете заниматься', msg.peer_id);
             }
             else {
-                bot.send('У вас уже есть доступ \n Можете продолжить обучение!', msg.peer_id);
+                VKbot.send('У вас уже есть доступ \n Можете продолжить обучение!', msg.peer_id);
             }
         }
         else {
-            bot.send('Похоже, вы ввели неправильный токен \n Попробуйте еще раз!', msg.peer_id);
+            VKbot.send('Похоже, вы ввели неправильный токен \n Попробуйте еще раз!', msg.peer_id);
         }
     }
     else {
-        bot.send('Привет! Стандартное сообщение', msg.peer_id);
+        VKbot.send('Привет! Стандартное сообщение', msg.peer_id);
     }
 });
-bot.get(/^getclasswork*/, function getclasswork(msg) {
+VKbot.get(/^getclasswork*/, function getclasswork(msg) {
     console.log("getclasswork");
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
@@ -41,21 +54,21 @@ bot.get(/^getclasswork*/, function getclasswork(msg) {
     var course_meta = read_json('./utils/courses/english_tutor/english_tutor_meta.json');
     var num_of_lessons = course_meta['course_size'];
     if (user_progress == num_of_lessons) {
-        bot.send("Вы все прошли!!", msg.peer_id);
+        VKbot.send("Вы все прошли!!", msg.peer_id);
     }
     else if (user_progress == "-1") {
-        bot.send("У вас нет доступа!!", msg.peer_id);
+        VKbot.send("У вас нет доступа!!", msg.peer_id);
     }
     else {
         var lessonMap = get_current_lesson(user_progress);
         for (var title in lessonMap) {
-            bot.send(title, msg.peer_id, {
+            VKbot.send(title, msg.peer_id, {
                 attachment: lessonMap[title]
             });
         }
     }
 });
-bot.get(/^gethomework*/, function gethomework(msg) {
+VKbot.get(/^gethomework*/, function gethomework(msg) {
     console.log("gethomework");
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
@@ -63,21 +76,21 @@ bot.get(/^gethomework*/, function gethomework(msg) {
     var course_meta = read_json('./utils/courses/english_tutor/english_tutor_meta.json');
     var num_of_lessons = course_meta['course_size'];
     if (user_progress == num_of_lessons) {
-        bot.send("Вы все прошли!!", msg.peer_id);
+        VKbot.send("Вы все прошли!!", msg.peer_id);
     }
     else if (user_progress == "-1") {
-        bot.send("У вас нет доступа!!", msg.peer_id);
+        VKbot.send("У вас нет доступа!!", msg.peer_id);
     }
     else {
         var lessonMap = get_current_homework(user_progress);
         for (var title in lessonMap) {
-            bot.send(title, msg.peer_id, {
+            VKbot.send(title, msg.peer_id, {
                 attachment: lessonMap[title][0]
             });
         }
     }
 });
-bot.get(/^sendhomework*/, function sendhomework(msg) {
+VKbot.get(/^sendhomework*/, function sendhomework(msg) {
     console.log("sendhomework");
     var userAnswer = (msg.body).substring(16);
     var vk_id = (msg.peer_id).toString();
@@ -86,10 +99,10 @@ bot.get(/^sendhomework*/, function sendhomework(msg) {
     var course_meta = read_json('./utils/courses/english_tutor/english_tutor_meta.json');
     var num_of_lessons = course_meta['course_size'];
     if (user_progress == num_of_lessons) {
-        bot.send("Вы все прошли!!", msg.peer_id);
+        VKbot.send("Вы все прошли!!", msg.peer_id);
     }
     else if (user_progress == "-1") {
-        bot.send("У вас нет доступа!!", msg.peer_id);
+        VKbot.send("У вас нет доступа!!", msg.peer_id);
     }
     else {
         var resultAnsver = [];
@@ -99,15 +112,15 @@ bot.get(/^sendhomework*/, function sendhomework(msg) {
         }
         var inspectionResult = check_user_answer_1.check_user_answer(userAnswer, resultAnsver, constants_1.TELEGRAM);
         if (inspectionResult['decided']) {
-            bot.send("Ответ принят!", msg.peer_id);
-            bot.send(access_to_new_lesson(userID), msg.peer_id);
+            VKbot.send("Ответ принят!", msg.peer_id);
+            VKbot.send(access_to_new_lesson(userID), msg.peer_id);
         }
         else {
-            bot.send("Плохой ответ((", msg.peer_id);
+            VKbot.send("Плохой ответ((", msg.peer_id);
         }
     }
 });
-bot.get(/^help*/, function help(msg) {
+VKbot.get(/^help*/, function help(msg) {
     var vk_id = (msg.peer_id).toString();
     var user_message = msg.body;
     user_message = user_message.substring(4);
@@ -116,11 +129,11 @@ bot.get(/^help*/, function help(msg) {
         // save user message
         help_save(user_message, userID);
         console.log(check_user_answer_1.check_user_answer());
-        bot.send('Мы скоро ответим', msg.peer_id);
-        bot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, keys_1.vk_admin_id);
+        VKbot.send('Мы скоро ответим', msg.peer_id);
+        VKbot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, keys_1.vk_admin_id);
     }
     else {
-        bot.send('Стандартный ответ', msg.peer_id);
+        VKbot.send('Стандартный ответ', msg.peer_id);
     }
 });
 // utils functions

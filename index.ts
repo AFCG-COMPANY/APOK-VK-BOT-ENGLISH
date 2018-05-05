@@ -4,14 +4,32 @@ import * as fs from "fs";
 import {vk_token, vk_admin_id} from "./config/keys";
 import {TELEGRAM} from "./config/constants";
 import {check_user_answer} from "./user_commands/utils/check_user_answer";
+const TelegramBot = require('node-telegram-bot-api');
 
 // bot config
-var bot = new Bot({
+var VKbot = new Bot({
   token: vk_token
 }).start();
 
+const token = '514641629:AAEF5RPoJmQ8N0WjKVakIIJWd7sz85cTIQc';
+
+const TGBot = new TelegramBot(token, {polling: true});
+
+// Matches "/echo [whatever]"
+TGBot.onText(/\/echo (.+)/, (msg, match) => {
+    // 'msg' is the received Message from Telegram
+    // 'match' is the result of executing the regexp above on the text content
+    // of the message
+
+    const chatId = msg.chat.id;
+    const resp = match[1]; // the captured "whatever"
+
+    // send back the matched "whatever" to the chat
+    TGBot.sendMessage(chatId, resp);
+});
+
 // bot functions
-bot.get(/^start*/, function start(msg: Message){
+VKbot.get(/^start*/, function start(msg: Message){
 
 
     var user_message = msg.body;
@@ -26,22 +44,22 @@ bot.get(/^start*/, function start(msg: Message){
         if (check_token(user_message)){
 
             if (set_access(userID)){
-                bot.send('Теперь у вас есть доступ! \n Можете заниматься', msg.peer_id);
+                VKbot.send('Теперь у вас есть доступ! \n Можете заниматься', msg.peer_id);
             }
             else{
-                bot.send('У вас уже есть доступ \n Можете продолжить обучение!', msg.peer_id);
+                VKbot.send('У вас уже есть доступ \n Можете продолжить обучение!', msg.peer_id);
             }
         }
         else{
-            bot.send('Похоже, вы ввели неправильный токен \n Попробуйте еще раз!', msg.peer_id);
+            VKbot.send('Похоже, вы ввели неправильный токен \n Попробуйте еще раз!', msg.peer_id);
         }
     }
     else {
-        bot.send('Привет! Стандартное сообщение', msg.peer_id);
+        VKbot.send('Привет! Стандартное сообщение', msg.peer_id);
     }
 });
 
-bot.get(/^getclasswork*/, function getclasswork(msg: Message){
+VKbot.get(/^getclasswork*/, function getclasswork(msg: Message){
 
     console.log("getclasswork");
     var vk_id = (msg.peer_id).toString();
@@ -52,15 +70,15 @@ bot.get(/^getclasswork*/, function getclasswork(msg: Message){
     var num_of_lessons = course_meta['course_size'];
 
     if (user_progress == num_of_lessons){
-        bot.send("Вы все прошли!!", msg.peer_id);
+        VKbot.send("Вы все прошли!!", msg.peer_id);
     }
     else if (user_progress == "-1") {
-        bot.send("У вас нет доступа!!", msg.peer_id);
+        VKbot.send("У вас нет доступа!!", msg.peer_id);
     }
     else{
         var lessonMap = get_current_lesson(user_progress);
         for (var title in lessonMap){
-            bot.send(title, msg.peer_id, {
+            VKbot.send(title, msg.peer_id, {
                 attachment: lessonMap[title]
             })
         }
@@ -68,7 +86,7 @@ bot.get(/^getclasswork*/, function getclasswork(msg: Message){
 
 });
 
-bot.get(/^gethomework*/, function gethomework(msg: Message){
+VKbot.get(/^gethomework*/, function gethomework(msg: Message){
 
     console.log("gethomework");
     var vk_id = (msg.peer_id).toString();
@@ -79,22 +97,22 @@ bot.get(/^gethomework*/, function gethomework(msg: Message){
     var num_of_lessons = course_meta['course_size'];
 
     if (user_progress == num_of_lessons){
-        bot.send("Вы все прошли!!", msg.peer_id);
+        VKbot.send("Вы все прошли!!", msg.peer_id);
     }
     else if (user_progress == "-1") {
-        bot.send("У вас нет доступа!!", msg.peer_id);
+        VKbot.send("У вас нет доступа!!", msg.peer_id);
     }
     else{
         var lessonMap = get_current_homework(user_progress);
         for (var title in lessonMap){
-            bot.send(title, msg.peer_id, {
+            VKbot.send(title, msg.peer_id, {
                 attachment: lessonMap[title][0]
             })
         }
     }
 });
 
-bot.get(/^sendhomework*/, function sendhomework(msg : Message){
+VKbot.get(/^sendhomework*/, function sendhomework(msg : Message){
     console.log("sendhomework");
     var userAnswer = (msg.body).substring(16);
     var vk_id = (msg.peer_id).toString();
@@ -105,10 +123,10 @@ bot.get(/^sendhomework*/, function sendhomework(msg : Message){
     var num_of_lessons = course_meta['course_size'];
 
     if (user_progress == num_of_lessons){
-        bot.send("Вы все прошли!!", msg.peer_id);
+        VKbot.send("Вы все прошли!!", msg.peer_id);
     }
     else if (user_progress == "-1") {
-        bot.send("У вас нет доступа!!", msg.peer_id);
+        VKbot.send("У вас нет доступа!!", msg.peer_id);
     }
     else{
         var resultAnsver = [];
@@ -118,18 +136,18 @@ bot.get(/^sendhomework*/, function sendhomework(msg : Message){
         }
         var inspectionResult = check_user_answer(userAnswer, resultAnsver, TELEGRAM);
         if (inspectionResult['decided']){
-            bot.send("Ответ принят!", msg.peer_id);
-            bot.send(access_to_new_lesson(userID), msg.peer_id);
+            VKbot.send("Ответ принят!", msg.peer_id);
+            VKbot.send(access_to_new_lesson(userID), msg.peer_id);
 
         }
         else {
-            bot.send("Плохой ответ((", msg.peer_id);
+            VKbot.send("Плохой ответ((", msg.peer_id);
         }
 
     }
 });
 
-bot.get(/^help*/, function help(msg: Message){
+VKbot.get(/^help*/, function help(msg: Message){
 
     var vk_id = (msg.peer_id).toString();
     var user_message = msg.body;
@@ -142,11 +160,11 @@ bot.get(/^help*/, function help(msg: Message){
         // save user message
         help_save(user_message, userID);
         console.log(check_user_answer());
-        bot.send('Мы скоро ответим', msg.peer_id);
-        bot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, vk_admin_id)
+        VKbot.send('Мы скоро ответим', msg.peer_id);
+        VKbot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, vk_admin_id)
     }
     else {
-        bot.send('Стандартный ответ', msg.peer_id);
+        VKbot.send('Стандартный ответ', msg.peer_id);
     }
 });
 

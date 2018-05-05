@@ -10,6 +10,7 @@
   "author": "Fedor Arbuzov",
   "license": "ISC",
   "dependencies": {
+    "node-telegram-bot-api": "^0.30.0",
     "node-vk-bot": "^0.2.4"
   },
   "devDependencies": {
