@@ -18,6 +18,7 @@ TGbot.onText(/\/help (.+)/, function (msg, match) {
     // of the message
     var userID = msg.chat.id;
     var user_message = match[1]; // the captured "whatever"
+    TGbot.send('help part', userID);
     if (/\S/.test(user_message)) {
         // save user message
         //help_save(user_message, userID, 'tg');

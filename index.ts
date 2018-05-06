@@ -22,7 +22,7 @@ TGbot.onText(/\/help (.+)/, (msg, match) => {
     const userID = msg.chat.id;
     const user_message = match[1]; // the captured "whatever"
 
-
+    TGbot.send('help part', userID);
     if (/\S/.test(user_message))
     {
         // save user message
