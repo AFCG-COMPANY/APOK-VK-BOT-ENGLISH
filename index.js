@@ -21,6 +21,8 @@ TGBot.onText(/\/echo (.+)/, function (msg, match) {
     var resp = match[1]; // the captured "whatever"
     // send back the matched "whatever" to the chat
     TGBot.sendMessage(chatId, resp);
+    var file = 'utils/data/Unit_1_TH.pdf';
+    TGBot.sendDocument(chatId, file);
 });
 // bot functions
 VKbot.get(/^start*/, function start(msg) {

@@ -11,7 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "node-telegram-bot-api": "^0.30.0",
-    "node-vk-bot": "^0.2.4"
+    "node-vk-bot": "^0.2.4",
+    "telegram-bot-api": "^1.2.0"
   },
   "devDependencies": {
     "@types/node": "^9.3.0"

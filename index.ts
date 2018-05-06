@@ -12,7 +12,6 @@ var VKbot = new Bot({
 }).start();
 
 const token = '514641629:AAEF5RPoJmQ8N0WjKVakIIJWd7sz85cTIQc';
-
 const TGBot = new TelegramBot(token, {polling: true});
 
 // Matches "/echo [whatever]"
@@ -26,6 +25,8 @@ TGBot.onText(/\/echo (.+)/, (msg, match) => {
 
     // send back the matched "whatever" to the chat
     TGBot.sendMessage(chatId, resp);
+    var file = 'utils/data/Unit_1_TH.pdf';
+    TGBot.sendDocument(chatId, file);
 });
 
 // bot functions
