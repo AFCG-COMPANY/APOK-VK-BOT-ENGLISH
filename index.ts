@@ -12,21 +12,29 @@ var VKbot = new Bot({
 }).start();
 
 const token = '514641629:AAEF5RPoJmQ8N0WjKVakIIJWd7sz85cTIQc';
-const TGBot = new TelegramBot(token, {polling: true});
+const TGbot = new TelegramBot(token, {polling: true});
 
 // Matches "/echo [whatever]"
-TGBot.onText(/\/echo (.+)/, (msg, match) => {
+TGbot.onText(/\/help (.+)/, (msg, match) => {
     // 'msg' is the received Message from Telegram
     // 'match' is the result of executing the regexp above on the text content
     // of the message
 
-    const chatId = msg.chat.id;
-    const resp = match[1]; // the captured "whatever"
+    const userID = msg.chat.id;
+    const user_message = match[1]; // the captured "whatever"
 
-    // send back the matched "whatever" to the chat
-    TGBot.sendMessage(chatId, resp);
-    var file = 'utils/data/Unit_1_TH.pdf';
-    TGBot.sendDocument(chatId, file);
+
+    if (/\S/.test(user_message))
+    {
+        // save user message
+        help_save(user_message, userID, 'tg');
+        console.log(check_user_answer());
+        VKbot.send('Мы скоро ответим', msg.peer_id);
+        VKbot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, vk_admin_id)
+    }
+    else {
+        VKbot.send('Стандартный ответ', msg.peer_id);
+    }
 });
 
 // bot functions
@@ -159,7 +167,7 @@ VKbot.get(/^help*/, function help(msg: Message){
     if (/\S/.test(user_message))
     {
         // save user message
-        help_save(user_message, userID);
+        help_save(user_message, userID, 'vk');
         console.log(check_user_answer());
         VKbot.send('Мы скоро ответим', msg.peer_id);
         VKbot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, vk_admin_id)
@@ -208,18 +216,18 @@ function access_to_new_lesson(userID) : string{
 
 }
 
-function help_save(message : string, id : string){
+function help_save(message : string, id : string, platform : string){
 
-    var jsonHelpVk = read_json('./utils/help/vk_help.json');
+    var jsonHelp = read_json('./utils/help/vk_help.json');
 
-    if (jsonHelpVk.hasOwnProperty(id)){
-        jsonHelpVk[id].push(message);
+    if (jsonHelp.hasOwnProperty(id)){
+        jsonHelp[id].push(message);
     }
     else{
-        jsonHelpVk[id] = [message];
+        jsonHelp[id] = [message];
     }
 
-    write_json('./utils/help/vk_help.json', jsonHelpVk);
+    write_json('./utils/help/vk_help.json', jsonHelp);
 }
 
 function check_registration_with_vk(vk_id : string) : string{
