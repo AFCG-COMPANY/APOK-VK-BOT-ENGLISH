@@ -20,8 +20,8 @@ TGbot.onText(/\/help (.+)/, function (msg, match) {
     var user_message = match[1]; // the captured "whatever"
     if (/\S/.test(user_message)) {
         // save user message
-        help_save(user_message, userID, 'tg');
-        console.log(check_user_answer_1.check_user_answer());
+        //help_save(user_message, userID, 'tg');
+        //console.log(check_user_answer());
         TGbot.send('Мы скоро ответим', userID);
         TGbot.send('ЗАДАЛИ ВОПРОС!! \n' + user_message, keys_1.tg_admin_id);
     }
@@ -134,8 +134,8 @@ VKbot.get(/^help*/, function help(msg) {
     var userID = check_registration_with_vk(vk_id);
     if (/\S/.test(user_message)) {
         // save user message
-        help_save(user_message, userID, 'vk');
-        console.log(check_user_answer_1.check_user_answer());
+        //help_save(user_message, userID, 'vk');
+        //console.log(check_user_answer());
         VKbot.send('Мы скоро ответим', msg.peer_id);
         VKbot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, keys_1.vk_admin_id);
     }
