@@ -10,8 +10,7 @@ var TelegramBot = require('node-telegram-bot-api');
 var VKbot = new node_vk_bot_1.Bot({
     token: keys_1.vk_token
 }).start();
-var token = '514641629:AAEF5RPoJmQ8N0WjKVakIIJWd7sz85cTIQc';
-var TGbot = new TelegramBot(token, { polling: true });
+var TGbot = new TelegramBot(keys_1.tg_token, { polling: true });
 // Matches "/echo [whatever]"
 TGbot.onText(/\/help (.+)/, function (msg, match) {
     // 'msg' is the received Message from Telegram
@@ -23,11 +22,11 @@ TGbot.onText(/\/help (.+)/, function (msg, match) {
         // save user message
         help_save(user_message, userID, 'tg');
         console.log(check_user_answer_1.check_user_answer());
-        VKbot.send('Мы скоро ответим', msg.peer_id);
-        VKbot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, keys_1.vk_admin_id);
+        TGbot.send('Мы скоро ответим', userID);
+        TGbot.send('ЗАДАЛИ ВОПРОС!! \n' + user_message, keys_1.tg_admin_id);
     }
     else {
-        VKbot.send('Стандартный ответ', msg.peer_id);
+        TGbot.send('Стандартный ответ', userID);
     }
 });
 // bot functions

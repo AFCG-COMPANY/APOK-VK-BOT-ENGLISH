@@ -1,7 +1,7 @@
 import {Bot, Message} from 'node-vk-bot'
 import * as path from 'path'
 import * as fs from "fs";
-import {vk_token, vk_admin_id} from "./config/keys";
+import {vk_token, vk_admin_id, tg_token, tg_admin_id} from "./config/keys";
 import {TELEGRAM} from "./config/constants";
 import {check_user_answer} from "./user_commands/utils/check_user_answer";
 const TelegramBot = require('node-telegram-bot-api');
@@ -11,8 +11,7 @@ var VKbot = new Bot({
   token: vk_token
 }).start();
 
-const token = '514641629:AAEF5RPoJmQ8N0WjKVakIIJWd7sz85cTIQc';
-const TGbot = new TelegramBot(token, {polling: true});
+const TGbot = new TelegramBot(tg_token, {polling: true});
 
 // Matches "/echo [whatever]"
 TGbot.onText(/\/help (.+)/, (msg, match) => {
@@ -29,11 +28,11 @@ TGbot.onText(/\/help (.+)/, (msg, match) => {
         // save user message
         help_save(user_message, userID, 'tg');
         console.log(check_user_answer());
-        VKbot.send('Мы скоро ответим', msg.peer_id);
-        VKbot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, vk_admin_id)
+        TGbot.send('Мы скоро ответим', userID);
+        TGbot.send('ЗАДАЛИ ВОПРОС!! \n' + user_message, tg_admin_id);
     }
     else {
-        VKbot.send('Стандартный ответ', msg.peer_id);
+        TGbot.send('Стандартный ответ', userID);
     }
 });
 
@@ -170,7 +169,7 @@ VKbot.get(/^help*/, function help(msg: Message){
         help_save(user_message, userID, 'vk');
         console.log(check_user_answer());
         VKbot.send('Мы скоро ответим', msg.peer_id);
-        VKbot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, vk_admin_id)
+        VKbot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, vk_admin_id);
     }
     else {
         VKbot.send('Стандартный ответ', msg.peer_id);
