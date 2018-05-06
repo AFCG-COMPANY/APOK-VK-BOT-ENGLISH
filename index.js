@@ -29,6 +29,11 @@ TGbot.onText(/\/help (.+)/, function (msg, match) {
         TGbot.send('Стандартный ответ', userID);
     }
 });
+TGbot.on('message', function (msg) {
+    var chatId = msg.chat.id;
+    // send a message to the chat acknowledging receipt of their message
+    TGbot.sendMessage(chatId, 'Received your message');
+});
 // bot functions
 VKbot.get(/^start*/, function start(msg) {
     var user_message = msg.body;

@@ -36,6 +36,12 @@ TGbot.onText(/\/help (.+)/, (msg, match) => {
     }
 });
 
+TGbot.on('message', (msg) => {
+    const chatId = msg.chat.id;
+
+    // send a message to the chat acknowledging receipt of their message
+    TGbot.sendMessage(chatId, 'Received your message');
+});
 // bot functions
 VKbot.get(/^start*/, function start(msg: Message){
 
