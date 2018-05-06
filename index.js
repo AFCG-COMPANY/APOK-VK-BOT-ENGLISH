@@ -18,16 +18,16 @@ TGbot.onText(/\/help (.+)/, function (msg, match) {
     // of the message
     var userID = msg.chat.id;
     var user_message = match[1]; // the captured "whatever"
-    TGbot.sendMessage('help part', userID);
+    TGbot.sendMessage(userID, 'help part');
     if (/\S/.test(user_message)) {
         // save user message
         help_save(user_message, userID, 'tg');
         console.log(check_user_answer_1.check_user_answer());
-        TGbot.sendMessage('Мы скоро ответим', userID);
-        TGbot.sendMessage('ЗАДАЛИ ВОПРОС!! \n' + user_message, keys_1.tg_admin_id);
+        TGbot.sendMessage(userID, 'Мы скоро ответим');
+        TGbot.sendMessage(keys_1.tg_admin_id, 'ЗАДАЛИ ВОПРОС!! \n' + user_message);
     }
     else {
-        TGbot.send('Стандартный ответ', userID);
+        TGbot.send(userID, 'Стандартный ответ');
     }
 });
 // Matches "/echo [whatever]"
