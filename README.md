@@ -17,5 +17,4 @@ The first commercial project for the company apok (creating a bot in VK for lear
 3) Сomplete integration with telegram<br/>
 
 #### Accomplish TODO
-
 ~~1) remove all keys from the git~~<br/>
