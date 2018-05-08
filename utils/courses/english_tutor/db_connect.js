@@ -1,8 +1,14 @@
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://fedor.a.hope:MGTA2019@ds217560.mlab.com:17560/apok";
 
+var help_collectioons = ['tg_help', 'vk_help', 'phone_help', 'email_help']
+
 MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    console.log("Database created!");
-    db.close();
+    var dbo = db.db("apok");
+    dbo.createCollection("email_help", function(err, res) {
+        if (err) throw err;
+        console.log("Collection created!");
+        db.close();
+    });
 });
