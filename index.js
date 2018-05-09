@@ -46,9 +46,9 @@ TGbot.on('message', function (msg) {
     TGbot.sendMessage(chatId, 'Received your message');
 });
 // bot functions
-VKbot.get(/^start*/, function start(msg) {
+VKbot.get(/^\/start*/, function start(msg) {
     var user_message = msg.body;
-    user_message = user_message.substring(5);
+    user_message = user_message.substring(6);
     user_message = user_message.replace(/\s/g, '');
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
@@ -69,7 +69,7 @@ VKbot.get(/^start*/, function start(msg) {
         VKbot.send('Привет! Стандартное сообщение', msg.peer_id);
     }
 });
-VKbot.get(/^getclasswork*/, function getclasswork(msg) {
+VKbot.get(/^\/getclasswork*/, function getclasswork(msg) {
     console.log("getclasswork");
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
@@ -91,7 +91,7 @@ VKbot.get(/^getclasswork*/, function getclasswork(msg) {
         }
     }
 });
-VKbot.get(/^gethomework*/, function gethomework(msg) {
+VKbot.get(/^\/gethomework*/, function gethomework(msg) {
     console.log("gethomework");
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
@@ -113,9 +113,9 @@ VKbot.get(/^gethomework*/, function gethomework(msg) {
         }
     }
 });
-VKbot.get(/^sendhomework*/, function sendhomework(msg) {
+VKbot.get(/^\/sendhomework*/, function sendhomework(msg) {
     console.log("sendhomework");
-    var userAnswer = (msg.body).substring(16);
+    var userAnswer = (msg.body).substring(17);
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
     var user_progress = get_user_progress(userID);
@@ -143,10 +143,10 @@ VKbot.get(/^sendhomework*/, function sendhomework(msg) {
         }
     }
 });
-VKbot.get(/^help*/, function help(msg) {
+VKbot.get(/^\/help*/, function help(msg) {
     var vk_id = (msg.peer_id).toString();
     var user_message = msg.body;
-    user_message = user_message.substring(4);
+    user_message = user_message.substring(5);
     var userID = check_registration_with_vk(vk_id);
     if (/\S/.test(user_message)) {
         // save user message

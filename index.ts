@@ -56,11 +56,11 @@ TGbot.on('message', (msg) => {
     TGbot.sendMessage(chatId, 'Received your message');
 });
 // bot functions
-VKbot.get(/^start*/, function start(msg: Message){
+VKbot.get(/^\/start*/, function start(msg: Message){
 
 
     var user_message = msg.body;
-    user_message = user_message.substring(5);
+    user_message = user_message.substring(6);
     user_message = user_message.replace(/\s/g, '');
 
     var vk_id = (msg.peer_id).toString();
@@ -86,7 +86,7 @@ VKbot.get(/^start*/, function start(msg: Message){
     }
 });
 
-VKbot.get(/^getclasswork*/, function getclasswork(msg: Message){
+VKbot.get(/^\/getclasswork*/, function getclasswork(msg: Message){
 
     console.log("getclasswork");
     var vk_id = (msg.peer_id).toString();
@@ -113,7 +113,7 @@ VKbot.get(/^getclasswork*/, function getclasswork(msg: Message){
 
 });
 
-VKbot.get(/^gethomework*/, function gethomework(msg: Message){
+VKbot.get(/^\/gethomework*/, function gethomework(msg: Message){
 
     console.log("gethomework");
     var vk_id = (msg.peer_id).toString();
@@ -139,9 +139,9 @@ VKbot.get(/^gethomework*/, function gethomework(msg: Message){
     }
 });
 
-VKbot.get(/^sendhomework*/, function sendhomework(msg : Message){
+VKbot.get(/^\/sendhomework*/, function sendhomework(msg : Message){
     console.log("sendhomework");
-    var userAnswer = (msg.body).substring(16);
+    var userAnswer = (msg.body).substring(17);
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
     var user_progress = get_user_progress(userID);
@@ -174,11 +174,11 @@ VKbot.get(/^sendhomework*/, function sendhomework(msg : Message){
     }
 });
 
-VKbot.get(/^help*/, function help(msg: Message){
+VKbot.get(/^\/help*/, function help(msg: Message){
 
     var vk_id = (msg.peer_id).toString();
     var user_message = msg.body;
-    user_message = user_message.substring(4);
+    user_message = user_message.substring(5);
 
     var userID = check_registration_with_vk(vk_id);
 
