@@ -7,7 +7,6 @@ var constants_1 = require("./config/constants");
 var check_user_answer_1 = require("./user_commands/utils/check_user_answer");
 var TelegramBot = require('node-telegram-bot-api');
 var save_help = require("./user_commands/utils/save_help");
-save_help(1, 'hellp', constants_1.VK);
 // bot config
 var VKbot = new node_vk_bot_1.Bot({
     token: keys_1.vk_token

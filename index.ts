@@ -6,7 +6,6 @@ import {TELEGRAM, VK} from "./config/constants";
 import {check_user_answer} from "./user_commands/utils/check_user_answer";
 const TelegramBot = require('node-telegram-bot-api');
 const save_help = require("./user_commands/utils/save_help");
-save_help(1, 'hellp', VK);
 
 // bot config
 var VKbot = new Bot({
