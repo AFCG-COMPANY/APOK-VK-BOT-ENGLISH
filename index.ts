@@ -6,6 +6,7 @@ import {TELEGRAM, VK} from "./config/constants";
 import {check_user_answer} from "./user_commands/utils/check_user_answer";
 const TelegramBot = require('node-telegram-bot-api');
 const save_help = require("./user_commands/utils/save_help");
+var emoji = require('node-emoji');
 
 // bot config
 var VKbot = new Bot({
@@ -65,7 +66,7 @@ VKbot.get(/^\/start*/, function start(msg: Message){
 
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
-
+    VKbot.send(emoji.get('coffee'), msg.peer_id);
     if (user_message != '')
     {
         if (check_token(user_message)){

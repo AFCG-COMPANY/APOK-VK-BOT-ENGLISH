@@ -12,6 +12,7 @@
   "dependencies": {
     "minimist": "^1.2.0",
     "mongodb": "^3.0.7",
+    "node-emoji": "^1.8.1",
     "node-telegram-bot-api": "^0.30.0",
     "node-vk-bot": "^0.2.4",
     "telegram-bot-api": "^1.2.0"

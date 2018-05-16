@@ -7,6 +7,7 @@ var constants_1 = require("./config/constants");
 var check_user_answer_1 = require("./user_commands/utils/check_user_answer");
 var TelegramBot = require('node-telegram-bot-api');
 var save_help = require("./user_commands/utils/save_help");
+var emoji = require('node-emoji');
 // bot config
 var VKbot = new node_vk_bot_1.Bot({
     token: keys_1.vk_token
@@ -52,6 +53,7 @@ VKbot.get(/^\/start*/, function start(msg) {
     user_message = user_message.replace(/\s/g, '');
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
+    VKbot.send(emoji.get('coffee'), msg.peer_id);
     if (user_message != '') {
         if (check_token(user_message)) {
             if (set_access(userID)) {
