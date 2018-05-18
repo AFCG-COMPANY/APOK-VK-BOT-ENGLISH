@@ -5,15 +5,18 @@ import {vk_token, vk_admin_id, tg_token, tg_admin_id} from "./config/keys";
 import {TELEGRAM, VK} from "./config/constants";
 import {check_user_answer} from "./user_commands/utils/check_user_answer";
 const TelegramBot = require('node-telegram-bot-api');
-const save_help = require("./user_commands/utils/save_help");
 var emoji = require('node-emoji');
 
+const save_help = require("./user_commands/utils/save_help");
+
 // bot config
-var VKbot = new Bot({
+export const VKbot = new Bot({
   token: vk_token
 }).start();
 
-const TGbot = new TelegramBot(tg_token, {polling: true});
+const help = require('./user_commands/commands/vk/help');
+
+const TGbot = new TelegramBot(tg_token, {polling: false});
 
 // Matches "/echo [whatever]"
 TGbot.onText(/\/help (.+)/, (msg, match) => {
@@ -176,25 +179,7 @@ VKbot.get(/^\/sendhomework*/, function sendhomework(msg : Message){
     }
 });
 
-VKbot.get(/^\/help*/, function help(msg: Message){
-
-    var vk_id = (msg.peer_id).toString();
-    var user_message = msg.body;
-    user_message = user_message.substring(5);
-
-    var userID = check_registration_with_vk(vk_id);
-
-    if (/\S/.test(user_message))
-    {
-        // save user message
-        save_help(vk_id, user_message, VK);
-        VKbot.send('Мы скоро ответим', msg.peer_id);
-        VKbot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, vk_admin_id);
-    }
-    else {
-        VKbot.send('Стандартный ответ', msg.peer_id);
-    }
-});
+VKbot.get(/^\/help*/, help);
 
 // utils functions
 function get_user_progress(userID : string) : string{
@@ -296,5 +281,7 @@ function write_json(file_path : string, json : object){
 
 }
 
+
+module.exports = check_registration_with_vk;
 
 

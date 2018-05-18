@@ -6,13 +6,14 @@ var keys_1 = require("./config/keys");
 var constants_1 = require("./config/constants");
 var check_user_answer_1 = require("./user_commands/utils/check_user_answer");
 var TelegramBot = require('node-telegram-bot-api');
-var save_help = require("./user_commands/utils/save_help");
 var emoji = require('node-emoji');
+var save_help = require("./user_commands/utils/save_help");
 // bot config
-var VKbot = new node_vk_bot_1.Bot({
+exports.VKbot = new node_vk_bot_1.Bot({
     token: keys_1.vk_token
 }).start();
-var TGbot = new TelegramBot(keys_1.tg_token, { polling: true });
+var help = require('./user_commands/commands/vk/help');
+var TGbot = new TelegramBot(keys_1.tg_token, { polling: false });
 // Matches "/echo [whatever]"
 TGbot.onText(/\/help (.+)/, function (msg, match) {
     // 'msg' is the received Message from Telegram
@@ -48,31 +49,31 @@ TGbot.on('message', function (msg) {
     TGbot.sendMessage(chatId, 'Received your message');
 });
 // bot functions
-VKbot.get(/^\/start*/, function start(msg) {
+exports.VKbot.get(/^\/start*/, function start(msg) {
     var user_message = msg.body;
     user_message = user_message.substring(6);
     user_message = user_message.replace(/\s/g, '');
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
-    VKbot.send(emoji.get('coffee'), msg.peer_id);
+    exports.VKbot.send(emoji.get('coffee'), msg.peer_id);
     if (user_message != '') {
         if (check_token(user_message)) {
             if (set_access(userID)) {
-                VKbot.send('Теперь у вас есть доступ! \n Можете заниматься', msg.peer_id);
+                exports.VKbot.send('Теперь у вас есть доступ! \n Можете заниматься', msg.peer_id);
             }
             else {
-                VKbot.send('У вас уже есть доступ \n Можете продолжить обучение!', msg.peer_id);
+                exports.VKbot.send('У вас уже есть доступ \n Можете продолжить обучение!', msg.peer_id);
             }
         }
         else {
-            VKbot.send('Похоже, вы ввели неправильный токен \n Попробуйте еще раз!', msg.peer_id);
+            exports.VKbot.send('Похоже, вы ввели неправильный токен \n Попробуйте еще раз!', msg.peer_id);
         }
     }
     else {
-        VKbot.send('Привет! Стандартное сообщение', msg.peer_id);
+        exports.VKbot.send('Привет! Стандартное сообщение', msg.peer_id);
     }
 });
-VKbot.get(/^\/getclasswork*/, function getclasswork(msg) {
+exports.VKbot.get(/^\/getclasswork*/, function getclasswork(msg) {
     console.log("getclasswork");
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
@@ -80,21 +81,21 @@ VKbot.get(/^\/getclasswork*/, function getclasswork(msg) {
     var course_meta = read_json('./utils/courses/english_tutor/english_tutor_meta.json');
     var num_of_lessons = course_meta['course_size'];
     if (user_progress == num_of_lessons) {
-        VKbot.send("Вы все прошли!!", msg.peer_id);
+        exports.VKbot.send("Вы все прошли!!", msg.peer_id);
     }
     else if (user_progress == "-1") {
-        VKbot.send("У вас нет доступа!!", msg.peer_id);
+        exports.VKbot.send("У вас нет доступа!!", msg.peer_id);
     }
     else {
         var lessonMap = get_current_lesson(user_progress);
         for (var title in lessonMap) {
-            VKbot.send(title, msg.peer_id, {
+            exports.VKbot.send(title, msg.peer_id, {
                 attachment: lessonMap[title]
             });
         }
     }
 });
-VKbot.get(/^\/gethomework*/, function gethomework(msg) {
+exports.VKbot.get(/^\/gethomework*/, function gethomework(msg) {
     console.log("gethomework");
     var vk_id = (msg.peer_id).toString();
     var userID = check_registration_with_vk(vk_id);
@@ -102,21 +103,21 @@ VKbot.get(/^\/gethomework*/, function gethomework(msg) {
     var course_meta = read_json('./utils/courses/english_tutor/english_tutor_meta.json');
     var num_of_lessons = course_meta['course_size'];
     if (user_progress == num_of_lessons) {
-        VKbot.send("Вы все прошли!!", msg.peer_id);
+        exports.VKbot.send("Вы все прошли!!", msg.peer_id);
     }
     else if (user_progress == "-1") {
-        VKbot.send("У вас нет доступа!!", msg.peer_id);
+        exports.VKbot.send("У вас нет доступа!!", msg.peer_id);
     }
     else {
         var lessonMap = get_current_homework(user_progress);
         for (var title in lessonMap) {
-            VKbot.send(title, msg.peer_id, {
+            exports.VKbot.send(title, msg.peer_id, {
                 attachment: lessonMap[title][0]
             });
         }
     }
 });
-VKbot.get(/^\/sendhomework*/, function sendhomework(msg) {
+exports.VKbot.get(/^\/sendhomework*/, function sendhomework(msg) {
     console.log("sendhomework");
     var userAnswer = (msg.body).substring(17);
     var vk_id = (msg.peer_id).toString();
@@ -125,10 +126,10 @@ VKbot.get(/^\/sendhomework*/, function sendhomework(msg) {
     var course_meta = read_json('./utils/courses/english_tutor/english_tutor_meta.json');
     var num_of_lessons = course_meta['course_size'];
     if (user_progress == num_of_lessons) {
-        VKbot.send("Вы все прошли!!", msg.peer_id);
+        exports.VKbot.send("Вы все прошли!!", msg.peer_id);
     }
     else if (user_progress == "-1") {
-        VKbot.send("У вас нет доступа!!", msg.peer_id);
+        exports.VKbot.send("У вас нет доступа!!", msg.peer_id);
     }
     else {
         var resultAnsver = [];
@@ -138,29 +139,15 @@ VKbot.get(/^\/sendhomework*/, function sendhomework(msg) {
         }
         var inspectionResult = check_user_answer_1.check_user_answer(userAnswer, resultAnsver, constants_1.TELEGRAM);
         if (inspectionResult['decided']) {
-            VKbot.send("Ответ принят!", msg.peer_id);
-            VKbot.send(access_to_new_lesson(userID), msg.peer_id);
+            exports.VKbot.send("Ответ принят!", msg.peer_id);
+            exports.VKbot.send(access_to_new_lesson(userID), msg.peer_id);
         }
         else {
-            VKbot.send("Плохой ответ((", msg.peer_id);
+            exports.VKbot.send("Плохой ответ((", msg.peer_id);
         }
     }
 });
-VKbot.get(/^\/help*/, function help(msg) {
-    var vk_id = (msg.peer_id).toString();
-    var user_message = msg.body;
-    user_message = user_message.substring(5);
-    var userID = check_registration_with_vk(vk_id);
-    if (/\S/.test(user_message)) {
-        // save user message
-        save_help(vk_id, user_message, constants_1.VK);
-        VKbot.send('Мы скоро ответим', msg.peer_id);
-        VKbot.send('ЗАДАЛИ ВОПРОС!! \n' + msg.body, keys_1.vk_admin_id);
-    }
-    else {
-        VKbot.send('Стандартный ответ', msg.peer_id);
-    }
-});
+exports.VKbot.get(/^\/help*/, help);
 // utils functions
 function get_user_progress(userID) {
     var jsonUsers = read_json('./utils/users/users.json');
@@ -238,3 +225,4 @@ function write_json(file_path, json) {
     var json = JSON.stringify(json);
     fs.writeFileSync(file_path, json, 'utf8');
 }
+module.exports = check_registration_with_vk;
