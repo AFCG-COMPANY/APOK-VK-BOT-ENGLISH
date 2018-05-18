@@ -47,6 +47,7 @@ TGbot.onText(/\/echo (.+)/, (msg, match) => {
     const resp = match[1]; // the captured "whatever"
 
     // send back the matched "whatever" to the chat
+    TGbot.sendMessage(chatId, emoji.get('coffee'));
     TGbot.sendMessage(chatId, resp);
 });
 
