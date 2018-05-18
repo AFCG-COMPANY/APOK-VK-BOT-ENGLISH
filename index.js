@@ -13,7 +13,7 @@ exports.VKbot = new node_vk_bot_1.Bot({
     token: keys_1.vk_token
 }).start();
 //const help = require('./user_commands/commands/vk/help');
-var TGbot = new TelegramBot(keys_1.tg_token, { polling: false });
+var TGbot = new TelegramBot(keys_1.tg_token, { polling: true });
 // Matches "/echo [whatever]"
 TGbot.onText(/\/help (.+)/, function (msg, match) {
     // 'msg' is the received Message from Telegram

@@ -16,7 +16,7 @@ export const VKbot = new Bot({
 
 //const help = require('./user_commands/commands/vk/help');
 
-const TGbot = new TelegramBot(tg_token, {polling: false});
+const TGbot = new TelegramBot(tg_token, {polling: true});
 
 // Matches "/echo [whatever]"
 TGbot.onText(/\/help (.+)/, (msg, match) => {
