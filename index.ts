@@ -14,7 +14,7 @@ export const VKbot = new Bot({
   token: vk_token
 }).start();
 
-const help = require('./user_commands/commands/vk/help');
+//const help = require('./user_commands/commands/vk/help');
 
 const TGbot = new TelegramBot(tg_token, {polling: false});
 
@@ -179,7 +179,7 @@ VKbot.get(/^\/sendhomework*/, function sendhomework(msg : Message){
     }
 });
 
-VKbot.get(/^\/help*/, help);
+//VKbot.get(/^\/help*/, help);
 
 // utils functions
 function get_user_progress(userID : string) : string{

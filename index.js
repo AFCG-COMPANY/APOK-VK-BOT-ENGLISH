@@ -12,7 +12,7 @@ var save_help = require("./user_commands/utils/save_help");
 exports.VKbot = new node_vk_bot_1.Bot({
     token: keys_1.vk_token
 }).start();
-var help = require('./user_commands/commands/vk/help');
+//const help = require('./user_commands/commands/vk/help');
 var TGbot = new TelegramBot(keys_1.tg_token, { polling: false });
 // Matches "/echo [whatever]"
 TGbot.onText(/\/help (.+)/, function (msg, match) {
@@ -147,7 +147,7 @@ exports.VKbot.get(/^\/sendhomework*/, function sendhomework(msg) {
         }
     }
 });
-exports.VKbot.get(/^\/help*/, help);
+//VKbot.get(/^\/help*/, help);
 // utils functions
 function get_user_progress(userID) {
     var jsonUsers = read_json('./utils/users/users.json');
