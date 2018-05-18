@@ -41,6 +41,7 @@ TGbot.onText(/\/echo (.+)/, function (msg, match) {
     var resp = match[1]; // the captured "whatever"
     // send back the matched "whatever" to the chat
     TGbot.sendMessage(chatId, msg);
+    save_help(chatId, msg, constants_1.TELEGRAM);
     TGbot.sendMessage(chatId, resp);
 });
 TGbot.on('message', function (msg) {
