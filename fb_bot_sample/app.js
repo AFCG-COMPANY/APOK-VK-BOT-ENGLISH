@@ -118,7 +118,15 @@ function callSendAPI(sender_psid, response) {
         "recipient": {
             "id": sender_psid
         },
-        "message": response
+        //"message": response
+        "message": {
+            "attachment": {
+                "type": "file",
+                "payload": {
+                    "url": "https://cdn.glitch.com/849348ca-1335-44cf-a816-911218a16e0c%2FHL-academy.pdf?1526750869020"
+                }
+            }
+        }
     }
     console.log(request_body);
     // Send the HTTP request to the Messenger Platform
