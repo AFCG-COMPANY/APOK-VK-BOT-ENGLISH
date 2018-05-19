@@ -54,7 +54,7 @@ TGbot.onText(/\/echo (.+)/, (msg, match) => {
     save_help(chatId, msg, TELEGRAM);
     TGbot.sendMessage(chatId, resp);
     //var file = 'utils/courses/english_tutor/data/theory/Unit_1_TH.pdf';
-    var file = 'README.md';
+    var file = './utils/Unit_1_PR.pdf';
     TGbot.sendDocument(chatId, file);
 });
 
