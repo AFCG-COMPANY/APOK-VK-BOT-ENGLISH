@@ -20,8 +20,12 @@ const
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 // Sets server port and logs message on success
-app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
+app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
 console.log(process.env.PORT);
+
+app.get('/', (req, res) => {
+    res.send('Done')
+})
 // Accepts POST requests at /webhook endpoint
 app.post('/webhook', (req, res) => {
     // Parse the request body from the POST
