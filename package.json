@@ -4,17 +4,21 @@
   "description": "vk bot",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node app.js",
+    "fb": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Fedor Arbuzov",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
     "minimist": "^1.2.0",
     "mongodb": "^3.0.7",
     "node-emoji": "^1.8.1",
     "node-telegram-bot-api": "^0.30.0",
     "node-vk-bot": "^0.2.4",
+    "request": "^2.86.0",
     "telegram-bot-api": "^1.2.0"
   },
   "devDependencies": {
