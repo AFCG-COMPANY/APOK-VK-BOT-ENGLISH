@@ -12,14 +12,14 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "botgram": "^2.1.0",
     "express": "^4.16.3",
+    "figlet": "^1.2.0",
     "minimist": "^1.2.0",
     "mongodb": "^3.0.7",
     "node-emoji": "^1.8.1",
-    "node-telegram-bot-api": "^0.30.0",
     "node-vk-bot": "^0.2.4",
-    "request": "^2.86.0",
-    "telegram-bot-api": "^1.2.0"
+    "request": "^2.86.0"
   },
   "devDependencies": {
     "@types/node": "^9.3.0"
