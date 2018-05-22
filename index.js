@@ -38,7 +38,6 @@ function onMessage(msg, reply) {
 
 bot.text(onMessage);
 
-
 // vk handler
 VKbot.get(/[\s\S]*/, function answer(msg) {
     var vk_id = (msg.peer_id).toString();
