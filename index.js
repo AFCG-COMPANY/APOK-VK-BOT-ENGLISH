@@ -31,7 +31,7 @@ const
 
 // tg handler
 function onMessage(msg, reply) {
-    //baseHandler(msg)
+    baseHandler(msg.from.id, msg.text, TG)
     reply.text('An error occured. Probably text format is not correct.').then();
     var stream = fs.createReadStream("./package.json");
     reply.document(stream, "My drawing").then(function (err, sentMessage) {
@@ -45,6 +45,7 @@ bot.text(onMessage);
 // vk handler
 VKbot.get(/[\s\S]*/, function answer(msg) {
     var vk_id = (msg.peer_id).toString();
+    baseHandler(vk_id, msg.text, VK)
     console.log('hello vk');
     VKbot.send('hello', msg.peer_id)
 })
