@@ -1,6 +1,6 @@
 'use strict';
 
-// Imports dependencies and set up apps
+// Imports dependencies, tokens and set up apps
 const
     http = require('http'),
     fs = require('fs'),
@@ -13,10 +13,12 @@ const
 const
     vk_token = require('./config/keys').vk_token,
     tg_token = require('./config/keys').tg_token,
-    fb_token = require('./config/keys').fb_token;
+    fb_token = require('./config/keys').fb_token,
+    fb_webhook = require('./config/keys').fb_webhook;
 //const vk_token = '251d5365d4fa3f8f44fa1a29a95fd8df030a094ebfa6b4d536cefbdab8e438994272e2bd16dd09f21fcbf';
 //const tg_token = '514641629:AAEF5RPoJmQ8N0WjKVakIIJWd7sz85cTIQc';
 //const fb_token = 'EAAYawdRoSPIBAN3YHBLCg9SXby7ZCw4MeL1vq9q5exYpqwNLAoF6Wfbqsgwm6SLZBqIQ61kXpUYiOrUb6K3fG6eiv5tG5jzQDXgqHziTbwhDurAdedLzSy7v8NW6RpgcjrZBufGSDvj7ktDO0PhmfevPLYrW4xMfUewEeZBHIgZDZD"'
+//const fb_webhook = 'DogLover49';
 
 const
     bot = new Botgram(tg_token), //  creates telegram bot
@@ -25,20 +27,7 @@ const
 
 // tg handler
 function onMessage(msg, reply) {
-    baseHandler(msg)
-    figlet(msg.text, (err, data) => {
-        if (err) {
-            reply.text('An error occured. Probably text format is not correct.').then();
-            return;
-        }
-        const markdownResult = `${'```\n'}${data}${'\n```'}`;
-        reply.markdown(markdownResult).then();
-        var stream = fs.createReadStream("./package.json");
-        reply.document(stream, "My drawing").then(function (err, sentMessage) {
-            // sentMessage is a Message object with a file property, just like other photo messages
-            console.log("The ID is:", sentMessage.file.id);
-        });
-    });
+    //baseHandler(msg)
     reply.text('An error occured. Probably text format is not correct.').then();
     var stream = fs.createReadStream("./package.json");
     reply.document(stream, "My drawing").then(function (err, sentMessage) {
@@ -106,9 +95,6 @@ app.post('/webhook', (req, res) => {
 // Accepts GET requests at the /webhook endpoint
 app.get('/webhook', (req, res) => {
 
-    /** UPDATE YOUR VERIFY TOKEN **/
-    const VERIFY_TOKEN = "DogLover49";
-
     // Parse params from the webhook verification request
     let mode = req.query['hub.mode'];
     let token = req.query['hub.verify_token'];
@@ -118,12 +104,8 @@ app.get('/webhook', (req, res) => {
     if (mode && token) {
 
         // Check the mode and token sent are correct
-        if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-
-            // Respond with 200 OK and challenge token from the request
-            console.log('WEBHOOK_VERIFIED');
+        if (mode === 'subscribe' && token === fb_webhook) {
             res.status(200).send(challenge);
-
         } else {
             // Responds with '403 Forbidden' if verify tokens do not match
             res.sendStatus(403);
@@ -160,7 +142,8 @@ function callSendAPI(sender_psid, response) {
         "recipient": {
             "id": sender_psid
         },
-        //"message": response
+        "message": response
+        /*
         "message": {
             "attachment": {
                 "type": "file",
@@ -169,6 +152,7 @@ function callSendAPI(sender_psid, response) {
                 }
             }
         }
+        */
     }
     console.log(request_body);
     // Send the HTTP request to the Messenger Platform
