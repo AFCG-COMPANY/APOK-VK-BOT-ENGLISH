@@ -1,6 +1,6 @@
 'use strict';
 
-// Imports dependencies, tokens and set up apps
+// Imports dependencies, tokens, constants and set up apps
 const
     http = require('http'),
     fs = require('fs'),
@@ -15,15 +15,19 @@ const
     tg_token = require('./config/keys').tg_token,
     fb_token = require('./config/keys').fb_token,
     fb_webhook = require('./config/keys').fb_webhook;
-//const vk_token = '251d5365d4fa3f8f44fa1a29a95fd8df030a094ebfa6b4d536cefbdab8e438994272e2bd16dd09f21fcbf';
-//const tg_token = '514641629:AAEF5RPoJmQ8N0WjKVakIIJWd7sz85cTIQc';
-//const fb_token = 'EAAYawdRoSPIBAN3YHBLCg9SXby7ZCw4MeL1vq9q5exYpqwNLAoF6Wfbqsgwm6SLZBqIQ61kXpUYiOrUb6K3fG6eiv5tG5jzQDXgqHziTbwhDurAdedLzSy7v8NW6RpgcjrZBufGSDvj7ktDO0PhmfevPLYrW4xMfUewEeZBHIgZDZD"'
-//const fb_webhook = 'DogLover49';
+
+const
+    VK = require('./config/constants').VK,
+    TG = require('./config/constants').TG,
+    FB = require('./config/constants').FB;
 
 const
     bot = new Botgram(tg_token), //  creates telegram bot
     app = express().use(body_parser.json()), // creates express http server
     VKbot = new vkBot({token: vk_token}).start(); //creates vk bok
+
+const
+
 
 // tg handler
 function onMessage(msg, reply) {
