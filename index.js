@@ -27,7 +27,7 @@ const
     VKbot = new vkBot({token: vk_token}).start(); //creates vk bok
 
 const
-
+    baseHandler = require('./user_commands/base_handler').baseHandler;
 
 // tg handler
 function onMessage(msg, reply) {
