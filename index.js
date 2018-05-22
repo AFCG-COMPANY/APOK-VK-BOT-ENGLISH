@@ -7,26 +7,25 @@ const
     request = require('request'),
     express = require('express'),
     body_parser = require('body-parser'),
-    app = express().use(body_parser.json()), // creates express http server
     vkBot = require('node-vk-bot').Bot,
     Botgram = require('botgram');
 
+const
+    vk_token = require('./config/keys').vk_token,
+    tg_token = require('./config/keys').tg_token,
+    fb_token = require('./config/keys').fb_token;
+//const vk_token = '251d5365d4fa3f8f44fa1a29a95fd8df030a094ebfa6b4d536cefbdab8e438994272e2bd16dd09f21fcbf';
+//const tg_token = '514641629:AAEF5RPoJmQ8N0WjKVakIIJWd7sz85cTIQc';
+//const fb_token = 'EAAYawdRoSPIBAN3YHBLCg9SXby7ZCw4MeL1vq9q5exYpqwNLAoF6Wfbqsgwm6SLZBqIQ61kXpUYiOrUb6K3fG6eiv5tG5jzQDXgqHziTbwhDurAdedLzSy7v8NW6RpgcjrZBufGSDvj7ktDO0PhmfevPLYrW4xMfUewEeZBHIgZDZD"'
 
-const vk_token = '251d5365d4fa3f8f44fa1a29a95fd8df030a094ebfa6b4d536cefbdab8e438994272e2bd16dd09f21fcbf';
-const tg_token = '514641629:AAEF5RPoJmQ8N0WjKVakIIJWd7sz85cTIQc';
+const
+    bot = new Botgram(tg_token), //  creates telegram bot
+    app = express().use(body_parser.json()), // creates express http server
+    VKbot = new vkBot({token: vk_token}).start(); //creates vk bok
 
-const Botgram = require('botgram');
-
-const { TELEGRAM_BOT_TOKEN } = process.env;
-
-if (!TELEGRAM_BOT_TOKEN) {
-    console.error('Seems like you forgot to pass Telegram Bot Token. I can not proceed...');
-    process.exit(1);
-}
-
-const bot = new Botgram(TELEGRAM_BOT_TOKEN);
-
+// tg handler
 function onMessage(msg, reply) {
+    baseHandler(msg)
     figlet(msg.text, (err, data) => {
         if (err) {
             reply.text('An error occured. Probably text format is not correct.').then();
@@ -40,24 +39,25 @@ function onMessage(msg, reply) {
             console.log("The ID is:", sentMessage.file.id);
         });
     });
+    reply.text('An error occured. Probably text format is not correct.').then();
+    var stream = fs.createReadStream("./package.json");
+    reply.document(stream, "My drawing").then(function (err, sentMessage) {
+        // sentMessage is a Message object with a file property, just like other photo messages
+        console.log("The ID is:", sentMessage.file.id);
+    });
 }
 
 bot.text(onMessage);
 
-const VKbot = new vkBot({
-    token: vk_token
-}).start();
 
-
+// vk handler
 VKbot.get(/[\s\S]*/, function answer(msg) {
     var vk_id = (msg.peer_id).toString();
     console.log('hello vk');
     VKbot.send('hello', msg.peer_id)
 })
 
-
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-
+// fb handler
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
@@ -174,7 +174,7 @@ function callSendAPI(sender_psid, response) {
     // Send the HTTP request to the Messenger Platform
     request({
         "uri": "https://graph.facebook.com/v2.6/me/messages",
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "qs": { "access_token": fb_token },
         "method": "POST",
         "json": request_body
     }, (err, res, body) => {
