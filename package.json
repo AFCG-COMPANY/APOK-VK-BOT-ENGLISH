@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "fb": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Fedor Arbuzov",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "express": "^4.16.3",
     "figlet": "^1.2.0",
     "minimist": "^1.2.0",
+    "mocha": "^5.2.0",
     "mongodb": "^3.0.7",
     "node-emoji": "^1.8.1",
     "node-vk-bot": "^0.2.4",
