@@ -2,12 +2,13 @@
 The first commercial project for the company apok (creating a bot in VK for learning English)
 
 #### Available commands:
-* start
-* getclasswork
-* gethomework
-* sendhomework
-* help
+* start *
+* getclasswork *
+* gethomework *
+* sendhomework *
+* help *
 
+You can use any characters after the commands
 
 #### TODO 
 1) overwrite all save in mongoDB<br/>
