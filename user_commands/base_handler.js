@@ -24,4 +24,5 @@ const
                 break
         }
     }
+
 exports.baseHandler = baseHandler;
