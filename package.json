@@ -1,28 +1,25 @@
 {
-  "name": "vk-bot",
+  "name": "messenger-quick-start",
   "version": "1.0.0",
-  "description": "vk bot",
-  "main": "index.js",
+  "description": "An example webhook for Facebook Messenger quick start tutorial.",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js",
-    "fb": "node app.js",
-    "test": "mocha"
+    "start": "node app.js"
   },
-  "author": "Fedor Arbuzov",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fbsamples/messenger-platform-samples.git"
+  },
+  "author": "Facebook",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "botgram": "^2.1.0",
-    "express": "^4.16.3",
-    "figlet": "^1.2.0",
-    "minimist": "^1.2.0",
-    "mocha": "^5.2.0",
-    "mongodb": "^3.0.7",
-    "node-emoji": "^1.8.1",
-    "node-vk-bot": "^0.2.4",
-    "request": "^2.86.0"
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "request": "^2.72.0",
+    "node-vk-bot": "^0.2.6",
+    "botgram": "^2.1.0"
   },
-  "devDependencies": {
-    "@types/node": "^9.3.0"
+  "engines": {
+    "node": "~4.1.2"
   }
 }

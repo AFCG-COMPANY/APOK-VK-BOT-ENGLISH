@@ -1,36 +1,71 @@
-/*
- * Starter Project for Messenger Platform Quick Start Tutorial
- *
- * Remix this as the starting point for following the Messenger Platform
- * quick start tutorial.
- *
- * https://developers.facebook.com/docs/messenger-platform/getting-started/quick-start/
- *
- */
-
 'use strict';
 
-// Imports dependencies and set up http server
+// Imports dependencies, tokens, constants and set up apps
 const
+    http = require('http'),
+    fs = require('fs'),
     request = require('request'),
     express = require('express'),
     body_parser = require('body-parser'),
-    app = express().use(body_parser.json()); // creates express http server
+    vkBot = require('node-vk-bot').Bot,
+    Botgram = require('botgram');
 
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const
+    vk_token = require('./config/keys').vk_token,
+    tg_token = require('./config/keys').tg_token,
+    fb_token = require('./config/keys').fb_token,
+    fb_webhook = require('./config/keys').fb_webhook;
 
-// Sets server port and logs message on success
-app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
-console.log(process.env.PORT);
+const
+    VK = require('./config/constants').VK,
+    TG = require('./config/constants').TG,
+    FB = require('./config/constants').FB;
 
-app.get('/', (req, res) => {
-    res.send('Done')
+const
+    bot = new Botgram(tg_token), //  creates telegram bot
+    app = express().use(body_parser.json()), // creates express http server
+    VKbot = new vkBot({token: vk_token}).start(); //creates vk bok
+
+//const
+//    baseHandler = require('./user_commands/base_handler').baseHandler;
+
+// tg handler
+function onMessage(msg, reply) {
+    console.log(msg.text, msg.user.id)
+    //baseHandler(msg.from.id, msg.text, TG)
+    reply.text('An error occured. Probably text format is not correct.').then();
+    var stream = fs.createReadStream("./package.json");
+    reply.document(stream, "My drawing 1").then(function (err, sentMessage) {
+        // sentMessage is a Message object with a file property, just like other photo messages
+        console.log("The ID is:", sentMessage.file.id);
+    });
+}
+
+bot.text(onMessage);
+
+// vk handler
+VKbot.get(/[\s\S]*/, function answer(msg) {
+    var vk_id = (msg.peer_id).toString();
+    //baseHandler(vk_id, msg.text, VK)
+    console.log(msg.body)
+    console.log('hello vk');
+    VKbot.send('hello 1', msg.peer_id)
 })
+
+// fb handler
+// Sets server port and logs message on success
+app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
+
+app.get("/", (request, response) => {
+    console.log(Date.now() + " Ping Received");
+    response.sendStatus(200);
+});
+
 // Accepts POST requests at /webhook endpoint
 app.post('/webhook', (req, res) => {
     // Parse the request body from the POST
     let body = req.body;
-
+    console.log(body);
     // Check the webhook event is from a Page subscription
     if (body.object === 'page') {
 
@@ -40,11 +75,9 @@ app.post('/webhook', (req, res) => {
             // Get the webhook event. entry.messaging is an array, but
             // will only ever contain one event, so we get index 0
             let webhook_event = entry.messaging[0];
-            console.log(webhook_event);
 
             // Get the sender PSID
             let sender_psid = webhook_event.sender.id;
-            console.log('Sender PSID: ' + sender_psid);
 
             // Check if the event is a message or postback and
             // pass the event to the appropriate handler function
@@ -67,10 +100,6 @@ app.post('/webhook', (req, res) => {
 
 // Accepts GET requests at the /webhook endpoint
 app.get('/webhook', (req, res) => {
-
-    /** UPDATE YOUR VERIFY TOKEN **/
-    const VERIFY_TOKEN = "DogLover49";
-
     // Parse params from the webhook verification request
     let mode = req.query['hub.mode'];
     let token = req.query['hub.verify_token'];
@@ -80,12 +109,8 @@ app.get('/webhook', (req, res) => {
     if (mode && token) {
 
         // Check the mode and token sent are correct
-        if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-
-            // Respond with 200 OK and challenge token from the request
-            console.log('WEBHOOK_VERIFIED');
+        if (mode === 'subscribe' && token === fb_webhook) {
             res.status(200).send(challenge);
-
         } else {
             // Responds with '403 Forbidden' if verify tokens do not match
             res.sendStatus(403);
@@ -96,7 +121,7 @@ app.get('/webhook', (req, res) => {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
     let response;
-
+    console.log(response);
     // Check if the message contains text
     if (received_message.text) {
 
@@ -122,7 +147,8 @@ function callSendAPI(sender_psid, response) {
         "recipient": {
             "id": sender_psid
         },
-        //"message": response
+        "message": response
+        /*
         "message": {
             "attachment": {
                 "type": "file",
@@ -131,21 +157,24 @@ function callSendAPI(sender_psid, response) {
                 }
             }
         }
+        */
     }
     console.log(request_body);
     // Send the HTTP request to the Messenger Platform
     request({
         "uri": "https://graph.facebook.com/v2.6/me/messages",
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "qs": { "access_token": fb_token },
         "method": "POST",
         "json": request_body
     }, (err, res, body) => {
         if (!err) {
-            console.log(res)
-            console.log(res.statusCode)
             console.log('message sent!')
         } else {
             console.error("Unable to send message:" + err);
         }
     });
 }
+
+setInterval(() => {
+  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+}, 280000);
