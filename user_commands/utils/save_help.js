@@ -1,3 +1,5 @@
+'use strict'
+
 const MongoClient = require('mongodb').MongoClient;
 
 const mongo_db_url = require('../../config/keys').mongo_db_url;
