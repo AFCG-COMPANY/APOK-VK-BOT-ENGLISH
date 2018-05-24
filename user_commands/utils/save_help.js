@@ -7,6 +7,7 @@ const mongo_db_url = require('../../config/keys').mongo_db_url;
 const help_collectioons_map = {
     'tg': 'tg_help',
     'vk': 'vk_help',
+    'fb': 'fb_help',
     'web': 'email_help'
     }
 
