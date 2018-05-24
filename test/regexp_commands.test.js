@@ -6,8 +6,11 @@ const
 
 describe('Check regexps', function() {
     describe('check start regexp', function() {
-        it('/start must be true', function() {
+        it('(/start) must be true', function() {
             assert.equal(regexp_commands.startRegexp.test('/start'), true);
+        });
+        it('(/start 213) must be true', function() {
+            assert.equal(regexp_commands.startRegexp.test('/start 123'), true);
         });
     });
 });
