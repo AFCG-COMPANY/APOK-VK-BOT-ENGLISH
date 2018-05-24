@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/AFCG-COMPANY/APOK-VK-BOT-ENGLISH.svg?branch=master)](https://travis-ci.org/AFCG-COMPANY/APOK-VK-BOT-ENGLISH)
+[![Build Status](https://travis-ci.org/AFCG-COMPANY/APOK-VK-BOT-ENGLISH.svg?branch=master)](https://travis-ci.org/AFCG-COMPANY/APOK-VK-BOT-ENGLISH) [![Greenkeeper badge](https://badges.greenkeeper.io/AFCG-COMPANY/APOK-VK-BOT-ENGLISH.svg)](https://greenkeeper.io/)
 
 # APOK-VK-BOT-ENGLISH
 The first commercial project for the company apok (creating a bot in VK for learning English)
