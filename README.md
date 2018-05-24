@@ -1,6 +1,5 @@
 
 [![Build Status](https://travis-ci.org/AFCG-COMPANY/APOK-VK-BOT-ENGLISH.svg?branch=master)](https://travis-ci.org/AFCG-COMPANY/APOK-VK-BOT-ENGLISH)
-[![Coverage Status](https://coveralls.io/repos/github/AFCG-COMPANY/APOK-VK-BOT-ENGLISH/badge.svg?branch=master)](https://coveralls.io/github/AFCG-COMPANY/APOK-VK-BOT-ENGLISH?branch=master)
 
 # APOK-VK-BOT-ENGLISH
 The first commercial project for the company apok (creating a bot in VK for learning English)
