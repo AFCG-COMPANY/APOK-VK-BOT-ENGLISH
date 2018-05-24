@@ -12,5 +12,12 @@ describe('Check regexps', function() {
         it('(/start 213) must be true', function() {
             assert.equal(regexp_commands.startRegexp.test('/start 123'), true);
         });
+
+        it('(/starsdf) must be false', function() {
+            assert.equal(regexp_commands.startRegexp.test('/starsdf'), false);
+        });
+        it('(/starsdf 123) must be false', function() {
+            assert.equal(regexp_commands.startRegexp.test('/starsdf 123'), false);
+        });
     });
 });
