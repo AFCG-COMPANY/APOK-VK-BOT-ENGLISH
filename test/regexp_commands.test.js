@@ -41,4 +41,22 @@ describe('Check regexps', function() {
             assert.equal(regexp_commands.helpRegexp.test('/helsdf 123'), false);
         });
     });
+    describe('check sendhomework regexp', function() {
+        it('(/sendhomework) must be true', function() {
+            assert.equal(regexp_commands.sendhomeworkRegexp.test('/sendhomework'), true);
+        });
+        it('(/sendhomework   ) must be true', function() {
+            assert.equal(regexp_commands.sendhomeworkRegexp.test('/sendhomework   '), true);
+        });
+        it('(/sendhomework 213) must be true', function() {
+            assert.equal(regexp_commands.sendhomeworkRegexp.test('/sendhomework 123'), true);
+        });
+
+        it('(/setefresdf) must be false', function() {
+            assert.equal(regexp_commands.sendhomeworkRegexp.test('/sdfdsffdssdf'), false);
+        });
+        it('(/sendhomeworksdf 123) must be false', function() {
+            assert.equal(regexp_commands.sendhomeworkRegexp.test('/sdsfsfsdf 123'), false);
+        });
+    });
 });
