@@ -1,9 +1,13 @@
-var assert = require('assert');
+const
+    assert = require('assert');
 
-describe('Array', function() {
-    describe('#indexOf()', function() {
-        it('should return -1 when the value is not present', function() {
-            assert.equal([1,2,3].indexOf(4), -1);
+const
+    regexp_commands = require('../user_commands/utils/regexp_commands');
+
+describe('Check regexps', function() {
+    describe('check start regexp', function() {
+        it('/start must be true', function() {
+            assert.equal(regexp_commands.startRegexp.test('/start'), true);
         });
     });
 });
