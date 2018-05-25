@@ -46,8 +46,6 @@ bot.all(onMessage);
 VKbot.get(/[\s\S]*/, function answer(msg) {
     var vk_id = (msg.peer_id).toString();
     baseHandler(vk_id, msg.body, VK)
-    console.log(msg.body)
-    console.log('hello vk');
     VKbot.send('hello 1', msg.peer_id)
 })
 
