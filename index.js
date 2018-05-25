@@ -22,6 +22,9 @@ const
     FB = require('./config/constants').FB;
 
 const
+    AnswerBuilder = require('./user_commands/utils/answer_builder').AnswerBuilder;
+
+const
     bot = new Botgram(tg_token), //  creates telegram bot
     app = express().use(body_parser.json()), // creates express http server
     VKbot = new vkBot({token: vk_token}).start(); //creates vk bok

@@ -12,6 +12,15 @@ class AnswerBuilder {
         return 21;
     }
 
+    getNotFoundAnswer() {
+        return ''.concat(
+            'Похоже, что мы вас не поняли ',
+            emoji.get('upside_down_face'),
+            ' \n',
+            'Попробуйте команду /help, чтобы узнать о боте '
+        )
+    }
+
     getErrorAnswer() {
         return ''.concat(
             'Похоже, что что-то пошло не так ',

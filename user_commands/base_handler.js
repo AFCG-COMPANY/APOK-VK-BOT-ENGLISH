@@ -17,7 +17,6 @@ const
         }
 
         if (regexp_commands.helpRegexp.test(text)) {
-            console.log('help');
             return saveHelp(id, text, platform);
         }
 
