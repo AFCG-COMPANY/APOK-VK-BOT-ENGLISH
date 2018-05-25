@@ -4,11 +4,11 @@ const
     regexp_commands = require('./utils/regexp_commands');
 
 const
-    start = require('./utils/start'),
-    save_help = require('./utils/save_help'),
-    getclasswork = require('./utils/getclasswork'),
-    gethomework = require('./utils/gethomework'),
-    sendhomework = require('./utils/sendhomework');
+    start = require('./commands/start'),
+    save_help = require('./commands/save_help'),
+    getclasswork = require('./commands/getclasswork'),
+    gethomework = require('./commands/gethomework'),
+    sendhomework = require('./commands/sendhomework');
 
 const
     baseHandler = function(id, text, platform) {
