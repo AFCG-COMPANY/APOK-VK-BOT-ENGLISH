@@ -31,8 +31,7 @@ const
 
 // tg handler
 function onMessage(msg, reply) {
-    console.log(msg.text, msg.user.id)
-    baseHandler(msg.from.id, msg.text, TG)
+    baseHandler(msg.from.id, msg.text, TG);
     reply.text('An error occured. Probably text format is not correct.').then();
     var stream = fs.createReadStream("./package.json");
     reply.document(stream, "My drawing 1").then(function (err, sentMessage) {
