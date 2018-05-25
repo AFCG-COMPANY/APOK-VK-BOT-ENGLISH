@@ -12,8 +12,6 @@ const help_collectioons_map = {
     }
 
 const save_help = function (id, message, platform) {
-    console.log(id, message, platform);
-    console.log(help_collectioons_map[platform]);
     MongoClient.connect(mongo_db_url, function(err, db) {
         if (err) throw err;
         const dbo = db.db("apok");
