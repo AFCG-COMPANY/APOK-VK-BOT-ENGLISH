@@ -13,7 +13,7 @@ class AnswerBuilder {
     }
 
     getErrorAnswer() {
-        return String.concat(
+        return ''.concat(
             'Похоже, что что-то пошло не так ',
             emoji.get('upside_down_face'),
             ' \n',
