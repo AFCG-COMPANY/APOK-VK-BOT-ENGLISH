@@ -5,10 +5,10 @@ const
 
 const
     start = require('./commands/start'),
-    save_help = require('./commands/save_help'),
-    getclasswork = require('./commands/get_classwork'),
-    gethomework = require('./commands/get_homework'),
-    sendhomework = require('./commands/send_homework');
+    saveHelp = require('./commands/save_help'),
+    getClasswork = require('./commands/get_classwork'),
+    getHomework = require('./commands/get_homework'),
+    sendHomework = require('./commands/send_homework');
 
 const
     baseHandler = function(id, text, platform) {
@@ -18,18 +18,18 @@ const
 
         if (regexp_commands.helpRegexp.test(text)) {
             console.log('help');
-            return save_help(id, text, platform);
+            return saveHelp(id, text, platform);
         }
 
         if (regexp_commands.getclassworkRegexp.test(text)) {
-            return getclasswork(id, text, platform);
+            return getClasswork(id, text, platform);
         }
 
         if (regexp_commands.gethomeworkRegexp.test(text)) {
-            return gethomework(id, text, platform);
+            return getHomework(id, text, platform);
         }
         if (regexp_commands.sendhomeworkRegexp.test(text)){
-           return sendhomework(id, text, platform);
+           return sendHomework(id, text, platform);
         }
 
     }
