@@ -6,3 +6,4 @@ exports.helpRegexp = /\/help/;
 exports.getclassworkRegexp = /\/getclasswork/;
 exports.gethomeworkRegexp = /\/gethomework/;
 exports.sendhomeworkRegexp = /\/sendhomework/;
+exports.checkSpaces = /^\s+$/;

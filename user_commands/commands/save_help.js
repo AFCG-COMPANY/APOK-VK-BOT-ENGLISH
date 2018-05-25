@@ -12,6 +12,8 @@ const help_collectioons_map = {
     }
 
 const save_help = function (id, message, platform) {
+    message = message.substring(5);
+    if (message == '' || message.tes
     MongoClient.connect(mongo_db_url, function(err, db) {
         if (err) throw err;
         const dbo = db.db("apok");
