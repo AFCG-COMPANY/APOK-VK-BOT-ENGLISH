@@ -1,4 +1,5 @@
-"use strict";
+'use strict';
+
 Object.defineProperty(exports, "__esModule", { value: true });
 var CONST = require("../../config/constants");
 function check_user_answer(userAnswer, rightAnswer, systemType) {

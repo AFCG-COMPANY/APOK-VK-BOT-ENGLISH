@@ -8,7 +8,7 @@ const
 
 const
     checkSpaces = require('../utils/regexp_commands').checkSpaces;
-    AnswerBuilder = require('../utils/answer_builder');
+    AnswerBuilder = require('../utils/answer_builder').AnswerBuilder;
 
 const
     help_collections_map = {

@@ -25,4 +25,4 @@ class AnswerBuilder {
 
 }
 
-module.exports.AnswerBuilder;
+module.exports = AnswerBuilder;
