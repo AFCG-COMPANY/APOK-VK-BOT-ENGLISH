@@ -2,6 +2,11 @@ import random
 from flask import Flask, request
 from pymessenger.bot import Bot
 
+'''
+советы по установке тут https://www.twilio.com/blog/2017/12/facebook-messenger-bot-python.html
+нужно прописать ссылку на сайт и токен, добавить аксесс токен
+'''
+
 app = Flask(__name__)
 ACCESS_TOKEN = 'EAAYawdRoSPIBAN3YHBLCg9SXby7ZCw4MeL1vq9q5exYpqwNLAoF6Wfbqsgwm6SLZBqIQ61kXpUYiOrUb6K3fG6eiv5tG5jzQDXgqHziTbwhDurAdedLzSy7v8NW6RpgcjrZBufGSDvj7ktDO0PhmfevPLYrW4xMfUewEeZBHIgZDZD'
 VERIFY_TOKEN = 'DogLover50'
